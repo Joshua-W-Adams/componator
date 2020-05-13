@@ -1,21 +1,21 @@
 {
-  "name": "esmodules-boilerplate",
+  "name": "componator",
   "version": "1.0.0",
-  "description": "A template for creating modules in accordance with the es modules design pattern",
+  "description": "module to construct gui components based on a passed parent child data structure",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Joshua-W-Adams/esmodules-boilerplate.git"
+    "url": "git+https://github.com/Joshua-W-Adams/componator.git"
   },
   "author": "Joshua Adams",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Joshua-W-Adams/esmodules-boilerplate/issues"
+    "url": "https://github.com/Joshua-W-Adams/componator/issues"
   },
-  "homepage": "https://github.com/Joshua-W-Adams/esmodules-boilerplate#readme",
+  "homepage": "https://github.com/Joshua-W-Adams/componator#readme",
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",

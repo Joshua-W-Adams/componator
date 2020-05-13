@@ -1,8 +1,133 @@
-# esmodules-boilerplate
+# Componator
 
-A template for creating modules in accordance with the es modules design pattern
+## Description
+
+A pure JavaScript module to construct gui components based on a passed parent child data structure.
+
+## Why Use Componator?
+
+This module is:
+- Pure JavaScript - No HTML, CSS or 3rd party library requirements (e.g. jquery). All HTML components and elements are created dynamically.
+- Independant - Object is run in its own namespace to avoid conflicts with other libraries.
+- Easy to Install - Simply download the library and import it into your project.
+- Fully Customisable - Multiple construction options to fully configure any gui components content and operation. Change the background color, text color, button color, render custom element, customise onclick, onmouseover, onmouseout and onevent functions.
+- Tiny - 21 kB as source code and 8 kB as minified code.
 
 ## Getting Started
+
+### Installation
+
+1. Run this command
+
+```
+npm i componator --save
+```
+
+2. Either import into a Javascript module OR add as a resource.
+
+    1. Import
+
+    ```javascript
+    <script type="module">
+      import componator from './<location_of_installation>/componator.js';
+      // insert code to construct component here
+    </script>
+    ```
+
+    2. Resource
+
+    ```javascript
+    <script type="text/javascript" src="/dist/componator.min.js"></script>
+    <script>
+      // insert code to construct component here
+      // NOTE: componator.default must be called as opposed to componator when importing
+      // as a resource
+    </script>
+    ```
+
+### Useage
+
+Pass configuration objects to the module and get a constructed component returned as follows:
+
+```javascript
+  // sample component data structure to load a grey background modal
+  // parent child data structure of component to be generated replicating
+  // a HTML DOM
+  const defaultConfig = [{
+    name: 'modal',
+    element: {
+      value: 'div',
+      content: 'X'
+    },
+    child: [{
+      name: 'overlay',
+      style: {
+        position: 'fixed',
+        top: '0px',
+        left: '0px',
+        width: '100%',
+        height: '100%',
+        background: '#000',
+        opacity: '0.5',
+        'z-index': '999'
+      }
+    }]
+  }];
+  // user configuration overrides to default configuration modal
+  const userConfig = [{
+    name: 'modal',
+    child: [{
+      name: 'overlay',
+      style: {
+        background: 'red',
+      }
+    }]
+  }];
+  // construct default component and append / override with user details
+  let component = componator.buildComponent(defaultConfig, userConfig);
+  // NOTE: componator.default must be called as opposed to componator when importing
+  // as a resource
+  // let component = componator.default.buildComponent(defaultConfig, userConfig);
+  console.log(component);
+```
+
+Both configuration objects accepts the following parameters
+
+```javascript
+const config = [{
+  name: 'modal', // name of element - accepts string values
+  element: {
+    value: 'div', // element type - accepts string, function that returns a string or function that returns an element
+    content: 'X' // element innerHTML - accepts string or function that returns a string
+  },
+  onclick: function () { console.log ('clicked') }, // element onclick function
+  onmouseover: function () { console.log ('onmouseover') }, // element onmouseover function
+  onmouseout: function () { console.log ('onmouseout') }, // element onmouseout function
+  eventlistener: {
+    event: 'submit', // element event name - accepts string only
+    callback: function () { console.log ('submit') } // element on event function
+  },
+  style: null, // style to be applied to element - accepts css string, object or function that returns string or object
+  child: [{ // array of element objects to be loaded as children to parent element
+    // name: null,
+    // element: null,
+    // onclick: null,
+    // onmouseover: null,
+    // onmouseout: null,
+    // eventlistener: null,
+    // style: null,
+    // child: [{
+    //   // etc.
+    // }]
+  }]
+}];
+```
+
+### Contributors
+
+#### Develop
+
+If you would like to contribute to the project. To get a development environment up and running on your local system. Simply follow the instructions below.
 
 1. Install latest version of Node.js
 
@@ -22,7 +147,7 @@ git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY
 npm install
 ```
 
-4. Run nodemon server
+4. Serve module with web server
 
 ```
 gulp serve
@@ -34,7 +159,7 @@ gulp serve
 http://localhost/
 ```
 
-## Deployment
+#### Deployment
 
 1. Lint application
 
@@ -47,3 +172,9 @@ gulp lint
 ```
 gulp build
 ```
+
+3. Submit pull request to master branch on repository
+
+## License
+Copyright (C) 2020 Joshua Adams
+This program is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.

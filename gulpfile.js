@@ -39,8 +39,8 @@ const settings = {
 			// import * as something 'from' x
 			// property descriptions define the name that will be exported to compiled
 			// js code
-			"some-module-1": "someModule1",
-		 "./dist/some-module-2.js": "someModule2"
+		  // 	"some-module-1": "someModule1",
+		  //  "./dist/some-module-2.js": "someModule2"
 	  }
 		// list of dependancies to ADD to the compiled css files
 		, css: []   // 'dep1_location/dep1.css', 'etc.'
@@ -50,7 +50,7 @@ const settings = {
 
 const paths = {
 	inputs: {
-		index: "./src/js/module.js"
+		index: "./src/js/componator.js"
 		, js: ["./src/js/**/*.js"]
 		, sass: ["./src/sass/**/*.scss"]
 	}

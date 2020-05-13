@@ -7,10 +7,71 @@
     <!-- <link rel="stylesheet" type="text/css" href="dist/<some_css_file>.css"/> -->
   </head>
   <body spellcheck="false">
-    <div>Hello World</div>
   </body>
 </html>
-<!-- <script defer type="module" src="src/js/module.js"></script> -->
+<script src="dist/componator.min.js"></script>
 <script type="module">
-  // Some JavaScript Code
+  // ECMA 6 example
+  import componator from '/src/js/componator.js';
+  // ECMA5 example
+  // componator = componator.default;
+  // sample component data structure to load a grey background modal
+  const defaultConfig = [{
+    name: 'modal',
+    element: {
+      value: 'div', // accepts string, function that returns a string or function that returns an element
+      content: 'X' // accepts string or function that returns a string
+    },
+    onclick: function () { console.log('clicked') },
+    onmouseover: function () { console.log('onmouseover') },
+    onmouseout: function () { console.log('onmouseout') },
+    eventlistener: {
+      event: 'click',
+      callback: function () { console.log ('click') }
+    },
+    style: {
+      color: 'green'
+    },
+    child: [{
+      name: 'overlay',
+      element: {
+        value: null,
+        content: null
+      },
+      onclick: null,
+      onmouseover: null,
+      onmouseout: null,
+      eventlistener: null,
+      style: {
+        position: 'fixed',
+        top: '0px',
+        left: '0px',
+        width: '100%',
+        height: '100%',
+        background: '#000',
+        opacity: '0.5',
+        'z-index': '999'
+      }
+    }]
+  }];
+  // user configuration overrides to default configuration modal
+  const userConfig = [{
+    // name needs to be specified so software knows that item to override in
+    // default configuration modal.
+    name: 'modal',
+    child: [{
+      name: 'overlay',
+      style: {
+        // will keep the current configuration and simply overide the background
+        // color to red.
+        background: 'red',
+      }
+    }]
+  }];
+  // construct default component and append / override with user details
+  let component = componator.buildComponent(defaultConfig, userConfig);
+  console.log(component);
+  // add component to document body
+  let element = component.finalConfig[0].element;
+  document.body.append(element);
 </script>
