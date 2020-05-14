@@ -419,7 +419,7 @@ function _getHexCodeFromColor(color_name) {
 function _addUserFunctions(component, functions) {
   if (functions) {
     for (let i = 0; i < functions.length; i++) {
-      let f = functions[i];
+      const f = functions[i];
       component.__proto__[f.name] = f;
     }
   }

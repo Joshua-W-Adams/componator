@@ -285,9 +285,12 @@ function _buildComponent(component, defaultConfig, userConfig, finalConfig, pare
   // loop through current parent level in data heirarchy
   for (var i = 0; i < defaultConfig.length; i++) {
     // get current element configuration
-    var defaultElementConfig = defaultConfig[i]; // get any user overrides of current element
+    var defaultElementConfig = defaultConfig[i];
 
-    var userElementConfig = _findUserConfig(_getDescendantProp(defaultElementConfig, 'name'), userConfig); // get all element configuration values
+    var name = _getDescendantProp(defaultElementConfig, 'name'); // get any user overrides of current element
+
+
+    var userElementConfig = _findUserConfig(name, userConfig); // get all element configuration values
 
 
     var element = _handleElementValue(_getDescendantProp(userElementConfig, 'element.value') || _getDescendantProp(defaultElementConfig, 'element.value'), _getDescendantProp(userElementConfig, 'element.content') || _getDescendantProp(defaultElementConfig, 'element.content'));
@@ -324,10 +327,13 @@ function _buildComponent(component, defaultConfig, userConfig, finalConfig, pare
     _addOnMouseOut(element, onmouseout, component); // addEventListeners
 
 
-    _addEventListener(element, event, eventlistener); // update data modal with configured details
+    _addEventListener(element, event, eventlistener); // set element id
 
+
+    element.id = name; // update data modal with configured details
 
     var finalElementConfig = {
+      name: name,
       element: element,
       onclick: onclick,
       onmouseover: onmouseover,
@@ -348,9 +354,13 @@ function _buildComponent(component, defaultConfig, userConfig, finalConfig, pare
     finalConfig.push(finalElementConfig); // recursively call for child elements
 
     if (defaultElementConfig.child) {
-      parentElement = element;
+      var userElementConfigChild = void 0;
 
-      _buildComponent(component, defaultConfig[i].child, userElementConfig.child, finalConfig[i].child, parentElement);
+      if (userElementConfig) {
+        userElementConfigChild = userElementConfig.child;
+      }
+
+      _buildComponent(component, defaultConfig[i].child, userElementConfigChild, finalConfig[i].child, element);
     }
   }
 }
@@ -525,12 +535,21 @@ function _getHexCodeFromColor(color_name) {
   if (typeof colours[color_name.toLowerCase()] !== 'undefined') return colours[color_name.toLowerCase()];
   return false;
 }
+
+function _addUserFunctions(component, functions) {
+  if (functions) {
+    for (var i = 0; i < functions.length; i++) {
+      var f = functions[i];
+      component.__proto__[f.name] = f;
+    }
+  }
+}
 /* ============================== Public Methods ============================ */
 
 
-function buildComponent(defaultConfig, userConfig) {
+function buildComponent(defaultConfig, userConfig, userComponent, functions) {
   // create component
-  var component = {}; // create array to store final configuration details
+  var component = userComponent || {}; // create array to store final configuration details
 
   var finalConfig = []; // add generic functions to component prototype
   // must use __proto__ as object has already been created
@@ -538,7 +557,10 @@ function buildComponent(defaultConfig, userConfig) {
   component.__proto__.getRGBCode = _getRGBCode;
   component.__proto__.getHex = _getHex;
   component.__proto__.adjust_brightness = _adjust_brightness;
-  component.__proto__.getHexCodeFromColor = _getHexCodeFromColor; // apply styles and onclick functionality to all elements
+  component.__proto__.getHexCodeFromColor = _getHexCodeFromColor; // add user defined prototype functions to component
+
+  _addUserFunctions(component, functions); // apply styles and onclick functionality to all elements
+
 
   _buildComponent(component, defaultConfig, userConfig, finalConfig); // append data model
 
