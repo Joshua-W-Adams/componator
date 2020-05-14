@@ -186,8 +186,9 @@ function _buildComponent(component, defaultConfig, userConfig, finalConfig, pare
   for (let i = 0; i < defaultConfig.length; i++) {
     // get current element configuration
     const defaultElementConfig = defaultConfig[i];
+    const name = _getDescendantProp(defaultElementConfig, 'name');
     // get any user overrides of current element
-    const userElementConfig = _findUserConfig(_getDescendantProp(defaultElementConfig, 'name'), userConfig);
+    const userElementConfig = _findUserConfig(name, userConfig);
     // get all element configuration values
     const element = _handleElementValue(_getDescendantProp(userElementConfig, 'element.value') || _getDescendantProp(defaultElementConfig, 'element.value'),
       _getDescendantProp(userElementConfig, 'element.content') || _getDescendantProp(defaultElementConfig, 'element.content'));
@@ -211,8 +212,11 @@ function _buildComponent(component, defaultConfig, userConfig, finalConfig, pare
     _addOnMouseOut(element, onmouseout, component);
     // addEventListeners
     _addEventListener(element, event, eventlistener);
+    // set element id
+    element.id = name;
     // update data modal with configured details
     const finalElementConfig = {
+      name: name,
       element: element,
       onclick: onclick,
       onmouseover: onmouseover,
@@ -232,8 +236,11 @@ function _buildComponent(component, defaultConfig, userConfig, finalConfig, pare
     finalConfig.push(finalElementConfig);
     // recursively call for child elements
     if (defaultElementConfig.child) {
-      parentElement = element;
-      _buildComponent(component, defaultConfig[i].child, userElementConfig.child, finalConfig[i].child, parentElement);
+      let userElementConfigChild;
+      if (userElementConfig) {
+        userElementConfigChild = userElementConfig.child;
+      }
+      _buildComponent(component, defaultConfig[i].child, userElementConfigChild, finalConfig[i].child, element);
     }
   }
 }
@@ -409,11 +416,19 @@ function _getHexCodeFromColor(color_name) {
   return false;
 }
 
+function _addUserFunctions(component, functions) {
+  if (functions) {
+    for (let i = 0; i < functions.length; i++) {
+      let f = functions[i];
+      component.__proto__[f.name] = f;
+    }
+  }
+}
 /* ============================== Public Methods ============================ */
 
-function buildComponent(defaultConfig, userConfig) {
+function buildComponent(defaultConfig, userConfig, userComponent, functions) {
   // create component
-  const component = {};
+  const component = userComponent || {};
   // create array to store final configuration details
   const finalConfig = [];
   // add generic functions to component prototype
@@ -422,6 +437,8 @@ function buildComponent(defaultConfig, userConfig) {
   component.__proto__.getHex = _getHex;
   component.__proto__.adjust_brightness = _adjust_brightness;
   component.__proto__.getHexCodeFromColor = _getHexCodeFromColor;
+  // add user defined prototype functions to component
+  _addUserFunctions(component, functions);
   // apply styles and onclick functionality to all elements
   _buildComponent(component, defaultConfig, userConfig, finalConfig);
   // append data model

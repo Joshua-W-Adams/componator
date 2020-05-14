@@ -1,6 +1,6 @@
 {
   "name": "componator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "module to construct gui components based on a passed parent child data structure",
   "main": "index.js",
   "scripts": {
