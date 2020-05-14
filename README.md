@@ -123,6 +123,17 @@ const config = [{
 }];
 ```
 
+Build component function accepts the following parameters.
+
+```javascript
+// defaultConfig = configurations details to build the component
+// userConfig = configuration details that overrides the default config
+// component = optional. Object to load the component into. If not specified an object will
+// be created
+// functions = array of functions to bind to the component objects prototype
+let obj = componator.buildComponent(defaultConfig, userConfig, component, functions);
+```
+
 ### Contributors
 
 #### Develop

@@ -424,6 +424,7 @@ function _addUserFunctions(component, functions) {
     }
   }
 }
+
 /* ============================== Public Methods ============================ */
 
 function buildComponent(defaultConfig, userConfig, userComponent, functions) {
