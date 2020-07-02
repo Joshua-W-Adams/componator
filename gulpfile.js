@@ -262,7 +262,9 @@ gulp.task('sasslint', function (done) {
 });
 
 gulp.task('serve', function (done) {
-	 nodemonServer = getNodemonServer();
+   nodemonServer = getNodemonServer();
+   gulp.watch(paths.inputs.sass, gulp.series('css-no-dep', 'css-with-dep'));
+	 gulp.watch(paths.inputs.js, gulp.series('js-no-dep', 'js-min-no-dep', 'js-with-dep', 'js-min-with-dep'));
 })
 
 gulp.task('lint', function (done) {
