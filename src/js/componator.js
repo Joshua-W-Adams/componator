@@ -512,9 +512,22 @@ function findChildElement(arr, propName, propValue) {
 
 /* =========================== Export Public APIs =========================== */
 
-// do not specify default keyword. Otherwise these functions iwll be compilied under
-// the 'default' name space in the compiled ecma5 dist files.
-export {
+// ECMA6 syntax
+// functions will be compilied under the 'default' name space in the compiled 
+// ecma5 dist files.
+// export default {
+//   buildComponent,
+//   createDescendantProp,
+//   defaultOnMouseOverColor,
+//   defaultOnMouseOutColor,
+//   defaultOnMouseOverBackground,
+//   defaultOnMouseOutBackground,
+//   findElement,
+//   findChildElement
+// };
+
+// ES Modules syntax
+module.exports = {
   buildComponent,
   createDescendantProp,
   defaultOnMouseOverColor,
