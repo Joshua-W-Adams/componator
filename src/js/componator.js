@@ -512,7 +512,9 @@ function findChildElement(arr, propName, propValue) {
 
 /* =========================== Export Public APIs =========================== */
 
-export default {
+// do not specify default keyword. Otherwise these functions iwll be compilied under
+// the 'default' name space in the compiled ecma5 dist files.
+export {
   buildComponent,
   createDescendantProp,
   defaultOnMouseOverColor,

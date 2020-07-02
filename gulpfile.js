@@ -50,7 +50,7 @@ const settings = {
 
 const paths = {
 	inputs: {
-		index: "./src/js/componator.js"
+		index: "./index.js"
 		, js: ["./src/js/**/*.js"]
 		, sass: ["./src/sass/**/*.scss"]
 	}
@@ -62,7 +62,8 @@ const paths = {
 function getNodemonServer () {
   const nodemonServer = nodemon({
     // Calls the index.js script in the root directory by default
-    // script: __dirname + '\\index.js'
+    // override with specific express script
+    script: __dirname + '\\test\\express\\express.js',
     // arguments to pass to server.js
     // args: [`development`]
     // specify file types to watch in dir specified below.
@@ -95,7 +96,9 @@ function getWebpackCnf (name) {
 	  devtool: "source-map",
 	  output: {
 	    filename: "[name].js",
-			libraryTarget: 'var',
+      libraryTarget: 'var',
+      // name of library that will be exported. This will be accessible as a global variable
+      // in the web application.
       library: pkg.name.replace('-', ''),
 	  },
 		// exclude dependacies from the webpack output by listing them here
@@ -112,7 +115,7 @@ function getWebpackCnf (name) {
 		      use: {
 		        loader: 'babel-loader',
 		        options: {
-		          presets: ['@babel/preset-env']
+              presets: ['@babel/preset-env']
 		        }
 		      }
 		    }

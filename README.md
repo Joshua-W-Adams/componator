@@ -23,27 +23,11 @@ This module is:
 npm i componator --save
 ```
 
-2. Either import into a Javascript module OR add as a resource.
+2. Add as a resource.
 
-    1. Import
-
-    ```javascript
-    <script type="module">
-      import componator from './<location_of_installation>/componator.js';
-      // insert code to construct component here
-    </script>
-    ```
-
-    2. Resource
-
-    ```javascript
-    <script type="text/javascript" src="/dist/componator.min.js"></script>
-    <script>
-      // insert code to construct component here
-      // NOTE: componator.default must be called as opposed to componator when importing
-      // as a resource
-    </script>
-    ```
+  ```javascript
+  <script type="text/javascript" src="/dist/componator.min.js"></script>
+  ```
 
 ### Useage
 
@@ -85,9 +69,6 @@ Pass configuration objects to the module and get a constructed component returne
   }];
   // construct default component and append / override with user details
   let component = componator.buildComponent(defaultConfig, userConfig);
-  // NOTE: componator.default must be called as opposed to componator when importing
-  // as a resource
-  // let component = componator.default.buildComponent(defaultConfig, userConfig);
   console.log(component);
 ```
 
